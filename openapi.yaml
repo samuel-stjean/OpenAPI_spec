@@ -1,0 +1,63 @@
+openapi: 3.0.0
+metadata:
+  title: Ticket Payment API
+  version: 1.0.0
+  description: API for processing payments for movie tickets
+paths:
+  /payments:
+    get:
+      summary: Get Payment Details
+      description: Retrieve payment details based the user input under an ID.
+      parameters:
+        - name: ticket_payment_id
+          description: The unique identifier for the payment.
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Payment not found
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Process Payment
+      description: Process a payment.
+      requestBody:
+              properties:
+                amount:
+                  type: number
+                  format: float
+                  minimum: 0
+                  description: Amount in USD.
+                card_number:
+                  type: string
+                  format: credit-card
+                  description: Customer's credit card number.
+                card_expiry:
+                  type: string
+                  format: date
+                  description: CC expiration date (MM/YY).
+                cvv:
+                  type: string
+                  description: CVV on card
+      responses:
+        '201':
+          description: Payment successful
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Cancel Payment
+      description: Cancel an existing ticket payment based on a payment ID.
+      parameters:
+        - name: ticket_payment_id
+          description: The unique identifier for the payment to cancel.
+      responses:
+        '204':
+          description: Payment canceled successfully
+        '400':
+          description: Bad request
+        '404':
+          description: Payment not found
+        '500':
+          description: Internal Server Error
